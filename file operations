@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string.h>
+#include <fstream>
+#include <cstdio>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+using namespace std;
+
+//open a file to be edited
+void editFile(const char* path)
+{
+    //all output is added to the end of the file.
+    FILE *f = fopen(path, "a+");
+    fputs("Edited this file!",f);
+    fclose(f);
+}
+
+//rename a file or a directory
+void renameItem(const char* name, const char* newName)
+{
+    rename(name,newName);
+}
+
+//
+
+
+//create a new empty file for writing in
+void addFile(const char* name)
+{
+    //ofstream s;
+    FILE *f = fopen(name, "w");
+    //s << "test";
+    fclose(f);
+
+    //renameItem("test.txt", name);
+}
+
+//delete a file at the spercified pathname
+void delFile(const char* path)
+{
+    cout << "Now removing selected file" << endl;
+    remove(path);
+}
+//creates a new directory with full permissions
+void addDirectory(const char* path)
+{
+    cout << "creating a new directory at specified path" <<endl;
+    mkdir(path,S_IRWXU|S_IRWXG|S_IRWXO);
+}
+//deletes a directory at given pathname
+void delDirectory(const char* path)
+{
+    cout << "Now removing selected directory" << endl;
+    remove(path);
+}
+int main()
+{
+    addFile("newFile.txt");
+    addFile("test2.txt");
+
+    delFile("test2.txt");
+
+    addDirectory("newDir");
+    addDirectory("newDir1234");
+    delDirectory("newDir");
+
+    renameItem("newDir1234","myDirectory");
+    renameItem("newFile.txt","myFile.txt");
+    editFile("myFile.txt");
+    return 0;
+}
